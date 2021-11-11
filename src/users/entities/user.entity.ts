@@ -6,7 +6,7 @@ import { CoreEntity } from 'src/core/entities/core.entity';
 @Entity()
 export class User extends CoreEntity {
   @Column({ unique: true })
-  email: string;
+  user_id: string;
 
   @Column()
   password: string;
