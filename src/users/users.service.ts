@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,7 +11,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { SigninDto } from './dto/signin.dto';
-import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
@@ -56,5 +56,13 @@ export class UsersService {
     } else {
       throw new UnauthorizedException('login fail');
     }
+  }
+
+  async findOneByUserId(user_id: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ user_id });
+    if (!user) {
+      throw new NotFoundException('유효한 아이디가 아닙니다.');
+    }
+    return user;
   }
 }
