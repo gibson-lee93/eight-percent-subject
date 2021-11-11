@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { TransactionModule } from './transaction/transaction.module';
 import { UsersModule } from './users/users.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { Connection } from 'typeorm';
 
 @Module({
   imports: [
@@ -26,4 +27,6 @@ import { AccountsModule } from './accounts/accounts.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private connection: Connection) {}
+}
