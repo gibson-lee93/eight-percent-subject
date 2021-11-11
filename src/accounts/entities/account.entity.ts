@@ -3,9 +3,9 @@ import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class Account extends CoreEntity {
-  @Column()
+  @Column({ unique: true })
   acc_num: string;
 
-  @Column()
+  @Column({ default: 0 })
   money: number;
 }

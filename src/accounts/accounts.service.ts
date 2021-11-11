@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountsRepository } from './accounts.repository';
+import { CreateAccountDto } from './dto/create-account.dto';
 import { Account } from './entities/account.entity';
 
 @Injectable()
@@ -20,5 +21,9 @@ export class AccountsService {
       throw new NotFoundException('해당 계좌가 존재하지 않습니다');
     }
     return existedAccount;
+  }
+
+  async createAccount(createAccountDto: CreateAccountDto): Promise<Account> {
+    return await this.accountsRepository.save({ ...createAccountDto });
   }
 }
