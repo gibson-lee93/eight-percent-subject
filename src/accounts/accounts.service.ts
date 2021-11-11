@@ -43,4 +43,10 @@ export class AccountsService {
     account.money = updateAccountDto.money;
     return await this.accountsRepository.save(account);
   }
+
+  async deleteAccount(id: number): Promise<{ message: string }> {
+    await this.findOneAccount(id);
+    await this.accountsRepository.softDelete({ id });
+    return { message: '계좌 삭제 완료' };
+  }
 }
