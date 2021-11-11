@@ -6,7 +6,7 @@ export class CreateTransactionDto {
 
   @IsInt()
   @Min(0)
-  amount: bigint;
+  amount: number;
 
   @IsString()
   comments: string;

@@ -15,13 +15,13 @@ export class Transaction {
   trans_type: string;
 
   @Column()
-  amount: bigint;
+  amount: number;
 
   @Column({ default: '' })
   comments: string;
 
   @Column({ default: 0 })
-  balance: bigint;
+  balance: number;
 
   @CreateDateColumn()
   createdAt: Date;
