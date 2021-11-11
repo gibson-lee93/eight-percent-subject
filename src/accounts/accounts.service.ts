@@ -26,4 +26,10 @@ export class AccountsService {
   async createAccount(createAccountDto: CreateAccountDto): Promise<Account> {
     return await this.accountsRepository.save({ ...createAccountDto });
   }
+
+  async deleteAccount(id: number): Promise<{ message: string }> {
+    await this.findOneAccount(id);
+    await this.accountsRepository.softDelete({ id });
+    return { message: '계좌 삭제 완료' };
+  }
 }
