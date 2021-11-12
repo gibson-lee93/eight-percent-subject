@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../users/entities/user.entity';
 import { AccountsRepository } from './accounts.repository';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
@@ -29,14 +30,17 @@ export class AccountsService {
     return existedAccount;
   }
 
-  async createAccount(createAccountDto: CreateAccountDto): Promise<Account> {
+  async createAccount(
+    createAccountDto: CreateAccountDto,
+    user: User,
+  ): Promise<Account> {
     const existedAccount = await this.accountsRepository.findOne({
       ...createAccountDto,
     });
     if (existedAccount) {
       throw new ConflictException('이미 사용 중인 계좌번호입니다');
     }
-    return await this.accountsRepository.save({ ...createAccountDto });
+    return await this.accountsRepository.save({ ...createAccountDto, user });
   }
 
   async updateAccount(
