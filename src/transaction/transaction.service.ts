@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountsRepository } from '../accounts/accounts.repository';
 import { Transaction } from './entities/transaction.entity';
-import { PagingOptions } from './transaction.interface';
+import { ListWithPageAndUserOptions } from './transaction.interface';
 import { TransactionRepository } from './transaction.repository';
 
 @Injectable()
@@ -19,7 +19,9 @@ export class TransactionService {
     private readonly accountRepository: AccountsRepository,
   ) {}
 
-  async getAllTransactions(query: PagingOptions): Promise<Transaction[]> {
+  async getAllTransactions(
+    query: ListWithPageAndUserOptions,
+  ): Promise<Transaction[]> {
     // * 계좌의 소유주인지 여부를 확인합니다.
     const account = await this.accountRepository.findOne(+query.account_id, {
       join: {

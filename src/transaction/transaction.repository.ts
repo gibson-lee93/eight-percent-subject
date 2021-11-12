@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import * as moment from 'moment-timezone';
 import { Transaction } from './entities/transaction.entity';
-import { PagingOptions } from './transaction.interface';
+import { ListWithPageAndUserOptions } from './transaction.interface';
 
 @EntityRepository(Transaction)
 export class TransactionRepository extends Repository<Transaction> {
@@ -39,7 +39,7 @@ export class TransactionRepository extends Repository<Transaction> {
     startDate,
     endDate,
     account_id,
-  }: PagingOptions): Promise<Transaction[]> {
+  }: ListWithPageAndUserOptions): Promise<Transaction[]> {
     // * 거래일시에 대한 필터링을 수행합니다. 처음과 끝 날짜를 계산하여 문자열 형식으로 반환합니다.
     const [startDateString, endDateString] = this.getDatePeriod(
       startDate,
