@@ -151,11 +151,23 @@ Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://e
 ![image](https://user-images.githubusercontent.com/42320464/141520789-1c50e86c-2851-4982-864f-ba7927e24dc1.png)
 
 
-### Functional test
+## Functional test
 [Functional test](https://github.com/wanted-wecode-subjects/eight-percent-subject/wiki/functional-test)
 
-## 폴더 구조
+## 거래내역이 1억 건을 넘어갈 때에 대한 고려
+### 인덱싱
+- 거래내역(Transaction) 테이블의 trans_type 칼럼에 인덱싱을 부여하였습니다. 해당 칼럼은 입금과 출금의 타입을 저장하는 칼럼으로 다른 칼럼의 비해 카디널리티가 더 높습니다.
 
+### (미구현) 파티션 테이블
+- 거래내역을 한 테이블에 저장하지 않고 테이블 1, 테이블 2, 테이블 3 와 같이 분산하여 저장하는 방식입니다. 거래 방식 / 월단위 / 10000개씩 끊기 등이 있지만 너무 많은 파티션은 DB의 급격한 사용 시 부하가 발생할 수 있습니다.
+
+### (미구현) 페이징 LIMIT 외에 조회 범위 제한
+- 페이징를 하더라도 단순 LIMIT와 OFFSET 처리만 한다면 뒤로 갈수록 점점 느려질 수 있습니다. 그 이유는 ```LIMIT 50000 OFFSET 0``` 와 ```LIMIT 50000 OFFSET 50000```의 차이에서 있습니다. 전자는 처음부터 5만 개의 데이터를 가져오지만 후자는 5만 개 이후 5만 1번째부터 10만 개까지의 데이터를 불러옵니다.
+- 거래내역(Transaction)의 경우 테이블의 값이 삭제될 일이 없으므로 PK 값을 조건에 추가한다면 페이징의 성능을 향상시킬 수 있습니다.
+- 천 개씩 조회하고 7페이지라고 가정했을 때 ```where id > 7000 LIMIT 1000 OFFSET 6000 ```와 같이 where 절을 추가합니다.
+
+
+## 폴더 구조
 ```bash
 |   .eslintrc.js
 |   .gitignore
