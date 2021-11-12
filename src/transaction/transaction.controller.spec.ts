@@ -72,7 +72,7 @@ describe('TransactionController', () => {
 
   describe('getMany', () => {
     const mockListQuery = {
-      account_id: '1',
+      acc_num: '01234567890',
       page: '1',
       startDate: '2021-11-01',
       endDate: '2021-11-13',
