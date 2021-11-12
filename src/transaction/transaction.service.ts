@@ -36,18 +36,51 @@ export class TransactionService {
     // 트랜잭션 시작
     await queryRunner.startTransaction();
     try {
+      // 입금 일 경우만 허용
+      if (createTransactionDto.trans_type !== 'in') {
+        throw new BadRequestException('trans_type');
+      }
+
       // 해당계좌 얻어오기
       const account = await accountsRepository.findOne({
         acc_num: createTransactionDto.acc_num,
       });
 
-      // 해당계좌의 최신 잔액
-      const balance = await transactionRepository.findByRecentBalance(account);
-      console.log(balance);
-      // const transaction = transactionRepository.create({...createTransactionDto, account, })
+      // 해당계좌의 거래내역중 최신 잔액
+      const transaction = await transactionRepository.findByRecentBalance(
+        account,
+      );
+
+      // console.log(transaction.balance);
+      // 해당계좌의 거래내역이 없는 경우(처음 거래)
+      if (!transaction) {
+        transactionRepository.save(
+          transactionRepository.create({
+            ...createTransactionDto,
+            balance: createTransactionDto.amount,
+            account,
+          }),
+        );
+        // 해당계좌의 거래내역이 있는 경우
+      } else {
+        transactionRepository.save(
+          transactionRepository.create({
+            ...createTransactionDto,
+            balance: transaction.balance + createTransactionDto.amount,
+            account,
+          }),
+        );
+      }
+      await queryRunner.commitTransaction();
     } catch (e) {
       await queryRunner.rollbackTransaction();
-      throw new BadRequestException();
+      let message = '';
+      if (e.message === 'trans_type') {
+        message = 'trans_type이 정확하지 않습니다.';
+      } else if (e.message === 'acc_num') {
+        message = 'acc_num(계좌번호)가 정확하지 않습니다.';
+      }
+      throw new BadRequestException(message);
     } finally {
       await queryRunner.release();
     }

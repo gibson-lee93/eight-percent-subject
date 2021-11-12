@@ -7,12 +7,12 @@ import { Transaction } from './entities/transaction.entity';
 @Injectable()
 @EntityRepository(Transaction)
 export class TransactionRepository extends Repository<Transaction> {
-  async findByRecentBalance(account: Account): Promise<any> {
-    const query = this.createQueryBuilder('account')
-      // select balance,create ffrom trans join acount on transformAuthInfo.id = ac.id where account.acnum=acc.acum orderby createdat desc
-      .innerJoin('account.transactions', 'transacion')
+  async findByRecentBalance(account: Account): Promise<Transaction> {
+    const query = await this.createQueryBuilder('transaction')
+      .innerJoin('transaction.account', 'account')
       .where('account.acc_num = :acc_num', { acc_num: account.acc_num })
-      .getMany();
+      .orderBy('transaction.createdAt', 'DESC')
+      .getOne();
     return query;
   }
 }

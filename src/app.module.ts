@@ -7,6 +7,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import { UsersModule } from './users/users.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { Connection } from 'typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { Connection } from 'typeorm';
     TransactionModule,
     UsersModule,
     AccountsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
