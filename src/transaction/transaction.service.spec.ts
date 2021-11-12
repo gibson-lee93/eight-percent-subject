@@ -1,6 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TransactionService } from './transaction.service';
 
+const mockTransactionRepository = () => ({
+  getAllTransactions: jest.fn(),
+  compareMoneyAndAmount: jest.fn(),
+});
+
 describe('TransactionService', () => {
   let service: TransactionService;
 
