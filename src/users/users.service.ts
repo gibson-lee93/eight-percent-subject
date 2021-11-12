@@ -35,6 +35,7 @@ export class UsersService {
     const user = this.usersRepository.create(createUserDto);
     try {
       const result = await this.usersRepository.save(user);
+      console.log('we can signup');
       delete result.password;
       return result;
     } catch (error) {

@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-auth.guard';
 import { Transaction } from './entities/transaction.entity';
 import { ListQueryOptions } from './transaction.interface';
 import { TransactionService } from './transaction.service';
@@ -7,6 +8,7 @@ export class TransactionController {
   constructor(private transactionService: TransactionService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async getAllTransactions(
     @Query() query: ListQueryOptions,
   ): Promise<Transaction[]> {
