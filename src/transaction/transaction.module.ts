@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TransactionRepository } from './transaction.repository';
 import { TransactionController } from './transaction.controller';
 import { TransactionService } from './transaction.service';
-import { AccountsRepository } from 'src/accounts/accounts.repository';
+import { AccountsRepository } from '../accounts/accounts.repository';
 
 @Module({
   imports: [

@@ -4,7 +4,7 @@ import {
   NotAcceptableException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AccountsRepository } from 'src/accounts/accounts.repository';
+import { AccountsRepository } from '../accounts/accounts.repository';
 import { Transaction } from './entities/transaction.entity';
 import { PagingOptions } from './transaction.interface';
 import { TransactionRepository } from './transaction.repository';
