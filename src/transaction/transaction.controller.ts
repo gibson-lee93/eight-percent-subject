@@ -17,4 +17,12 @@ export class TransactionController {
   ): Promise<{ message: string }> {
     return this.transactionService.deposit(user, createTransactionDto);
   }
+
+  @Post('/withdraw')
+  withdraw(
+    @GetUser() user: User,
+    @Body() createTransactionDto: CreateTransactionDto,
+  ): Promise<{ message: string }> {
+    return this.transactionService.withdraw(user, createTransactionDto);
+  }
 }
