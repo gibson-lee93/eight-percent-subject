@@ -1,73 +1,259 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# 8퍼센트-subject
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+원티드x위코드 백엔드 프리온보딩 4번째 과제입니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 제출 기업 정보
 
-## Description
+- 기업명 : 8퍼센트
+- 주요 서비스 사이트: [8퍼센트](https://8percent.kr/)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 과제 : 8퍼센트 계좌 거래 API 구현
 
-## Installation
+### [필수 요구 사항]
 
+- 거래내역 조회 API
+  - 계좌의 소유주만 요청 할 수 있어야 합니다.
+  - 거래일시에 대한 필터링이 가능해야 합니다.
+  - 출금, 입금만 선택해서 필터링을 할 수 있어야 합니다.
+  - Pagination이 필요 합니다.
+  - 다음 사항이 응답에 포함되어야 합니다.
+    - 거래일시
+    - 거래금액
+    - 잔액
+    - 거래종류 (출금/입금)
+    - 적요
+- 입금 API
+  - 계좌의 소유주만 요청 할 수 있어야 합니다.
+- 출금 API
+  - 계좌의 소유주만 요청 할 수 있어야 합니다.
+  - 계좌의 잔액내에서만 출금 할 수 있어야 합니다. 잔액을 넘어선 출금 요청에 대해서는 적절한 에러처리가 되어야 합니다.
+
+### [개발 요구사항]
+
+**주요 고려 사항은 다음과 같습니다.**
+
+- 계좌의 잔액을 별도로 관리해야 하며, 계좌의 잔액과 거래내역의 잔액의 무결성의 보장
+- DB를 설계 할때 각 칼럼의 타입과 제약
+
+**구현하지 않아도 되는 부분은 다음과 같습니다.**
+
+- 문제와 관련되지 않은 부가적인 정보. 예를 들어 사용자 테이블의 이메일, 주소, 성별 등
+- 프론트앤드 관련 부분
+
+**구현하지 않아도 되는 부분은 다음과 같습니다.**
+
+- (**8퍼센트가 직접 로컬에서 실행하여 테스트를 원하는 경우를 위해**) 테스트의 편의성을 위해 mysql, postgresql 대신 sqllite를 사용해 주세요.
+
+**가산점.**
+
+- Unit test의 구현
+- Functional Test 의 구현 (입금, 조회, 출금에 대한 시나리오 테스트)
+- 거래내역이 1억건을 넘어갈 때에 대한 고려
+  - 이를 고려하여 어떤 설계를 추가하셨는지를 README에 남겨 주세요.
+
+### [평가 요소]
+
+- 주어진 요구사항에 대한 설계/구현 능력
+- 코드로 동료를 배려할 수 있는 구성 능력 (코드, 주석, README 등)
+
+## 조원
+
+| 이름         | 외부링크                                                                                                                                        | 담당 기능                                                               |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 이현준(조장) | [깃허브](https://github.com/lhj0621)/[블로그](https://supiz.tistory.com/)                                                                       | 총괄, 회원가입, 로그인, 로그인 인증, 로그아웃, 유닛 테스트, 헤로쿠 배포 |
+| 김태련       | [깃허브](https://github.com/nojamcode)/[블로그](https://velog.io/@code-link)                                                                    | 입금, 출금, 유닛테스트                                                  |
+| 신영학       | [깃허브](https://github.com/yhshin0)/[블로그](https://nbkw.tistory.com/)                                                                        | 계좌 CRUD, 유닛 테스트, functional test 작성                               |
+| 임유라       | [깃허브](https://github.com/BangleCoding)/[블로그](https://banglecoding.github.io/)                                                             | 거래내역 조회 쿼리, 거래내역 상세조회 기능 구현 테스트                  |
+| 이기범       | [깃허브](https://github.com/gibson-lee93)/[블로그](https://mysterious-laborer-518.notion.site/Gibson-s-Notion-2dd7f598fba64f1c9806cded5b4b83a0) | 계좌 CRUD, 유닛 테스트, README 작성                                     |
+| 정진산       | [깃허브](https://github.com/chinsanchung)/[블로그](https://chinsanchung.github.io/)                                                             | 거래내역 목록 조회, 거래내역 컨트롤러의 유닛 테스트                     |
+
+## 개발 환경
+
+- 언어: TypeScript
+- 프레임워크: NestJs
+- 데이터베이스: SQLite3
+- 라이브러리: typeorm, passport, passport-jwt, bcrypt, class-validator, class-transformer, moment
+
+## ERD
+
+![8퍼센트 ERD](https://user-images.githubusercontent.com/57168321/141470315-48e1e5e7-0bc6-4e9e-ac77-54efc3bc2f7f.PNG)
+
+## 구현 기능
+
+### 회원가입
+
+- bcrypt의 단방향 암호화로 입력받은 비밀번호를 암호화하여 저장했습니다.
+- class-validator으로 입력 값의 유효성을 검사해 회원가입에서 발생가능한 오류를 줄였습니다.
+- 유저 아이디 중복 체크를 통해 동일한 아이디로 가입을 하지 않도록 했습니다.
+
+### 로그인, 로그인 인증 및 로그아웃
+
+- passport 으로 로그인 과정에서 보안을 유지합니다.
+- 로그인 성공 시 유저 인증을 위한 JWT(Json Web Token)이 발급됩니다.
+- 로그인 시간을 유저의 DB에 기록하는 동시에 JWT 토큰에 저장합니다. 이 정보는 API 호출 시 이전 로그인 시간과 값을 비교하여 토큰의 유효성을 검증하는데 사용합니다.
+- 유저 DB 의 로그인 시간을 null 값으로 갱신하여 로그아웃을 수행합니다. 또한 로그인 시 발급받은 토큰을 만료시킵니다.
+
+### 계좌
+
+- 계좌의 CRUD를 구현했습니다. API를 수행하기 전에 로그인했는지 확인합니다.
+- 계좌에 대한 CRUD 동작은 계좌의 소유주인지 확인을 한 후에 실행할 수 있도록 처리하였습니다.
+- 계좌 전체 조회 시 해당 유저의 계좌 목록을 출력합니다.
+- 계좌 상세 조회할 경우 해당 유저의 특정 계좌만 출력합니다.
+- 입금 또는 출금이 있으면 계좌 수정을 통해 계좌의 보유 금액을 업데이트합니다.
+- typeorm 의 softDelete 메소드를 이용해 데이터를 실제로 삭제하지 않도록 구현했습니다.
+
+### 입금, 출금
+
+- 입금과 출금 기능을 구현 했습니다.
+- 입금과 출금을 하기전에 jwt로 인증을 하고, 해당 유저의 계좌인지 확인합니다.
+- 출금은 해당 계좌의 잔액보다 많이 출금 할 수 없습니다.
+- 입금과 출금은 transaction 처리로 중간에 에러가 나면 모든 처리가 롤백됩니다.
+
+### 거래내역
+
+- 거래내역의 목록, 그리고 한 개의 거래내역을 조회하는 기능을 작성했습니다.
+- 거래내역을 조회할 때, JWT를 이용하여 해당 계좌가 로그인 유저의 계좌와 일치하는지 확인합니다.
+- 목록은 1페이지에 다섯 항목을 보여주며, 요청을 위한 쿼리는 다음과 같습니다.
+  - acc_num: 계좌번호를 입력합니다. 필수로 입력하는 값입니다.
+  - startDate: 거래일시의 시작을 입력합니다. `YYYY-MM-DD` 형식으로 작성합니다. 만약 이 값을 입력하지 않는다면 "오늘을 기준으로 3개월 전"으로 설정합니다.
+  - endDate: 거래일시의 끝을 입력합니다. 시작일과 동일하게 `YYYY-MM-DD` 형식으로 작성합니다. 생략할 경우 기본값인 "오늘 날짜의 23시 59분 59초"로 설정합니다.
+  - page: 페이지 번호를 입력합니다. 1페이지부터 시작합니다.
+  - trans_type: 거래의 종류입니다. "in"은 입금, "out"은 출금입니다. 이 값을 생략할 경우 입금과 출력 모두를 출력합니다.
+- 목록을 조회할 때 [moment-timezone](https://momentjs.com/timezone/)을 이용해 시간대를 서울으로 고정하고, 날짜를 지정한 형식의 문자열로 출력하거나 날짜를 계산할 때 사용했습니다.
+- 각 거래내역의 아이디를 통해 해당 거래에 대한 내역을 조회할 수 있습니다.
+
+## API 문서
+
+<!-- TODO -->
+
+API 테스트를 위한 방법을 [POSTMAN document](https://documenter.getpostman.com/view/15323948/UVC8CRnQ)에서 확인하실 수 있습니다.
+
+## 배포
+
+<!-- TODO -->
+
+Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://eight-percent-subject.herokuapp.com/](https://eight-percent-subject.herokuapp.com/) 입니다.
+
+## 설치 및 실행 방법
+
+### 공통
+
+1. 최상위 폴더에 `.env` 파일에 `JWT_SECRET`에 임의의 문자열을 작성해 저장합니다.
+1. `npm install`으로 패키지를 설치합니다.
+1. 테스트
+   - 개발일 경우: `npm run start`으로 `localhost:3000`에서 테스트하실 수 있습니다.
+   - 배포일 경우: `npm run build`으로 애플리케이션을 빌드합니다. 그리고 `npm run start:prod`으로 실행합니다.
+1. POST `localhost:3000/users`에서 `user_id`, `password`를 입력해 유저를 생성합니다.
+1. POST `localhost:3000/users/signin`에 `user_id`, `password`을 입력하신 후 결과값으로 accessToken을 발급받습니다.
+1. 계좌 생성, 입금, 출금 등 권한이 필요한 API의 주소를 입력한 후, Headers 의 Authorization에 accessToken을 붙여넣어 권한을 얻은 후 API를 호출합니다.
+
+## 테스트
+![image](https://user-images.githubusercontent.com/42320464/141520789-1c50e86c-2851-4982-864f-ba7927e24dc1.png)
+
+
+## Functional test
+[Functional test](https://github.com/wanted-wecode-subjects/eight-percent-subject/wiki/functional-test)
+
+## 거래내역이 1억 건을 넘어갈 때에 대한 고려
+### 인덱싱
+- 거래내역(Transaction) 테이블의 trans_type 칼럼에 인덱싱을 부여하였습니다. 해당 칼럼은 입금과 출금의 타입을 저장하는 칼럼으로 다른 칼럼의 비해 카디널리티가 더 높습니다.
+
+### (미구현) 파티션 테이블
+- 거래내역을 한 테이블에 저장하지 않고 테이블 1, 테이블 2, 테이블 3 와 같이 분산하여 저장하는 방식입니다. 거래 방식 / 월단위 / 10000개씩 끊기 등이 있지만 너무 많은 파티션은 DB의 급격한 사용 시 부하가 발생할 수 있습니다.
+
+### (미구현) 페이징 LIMIT 외에 조회 범위 제한
+- 페이징를 하더라도 단순 LIMIT와 OFFSET 처리만 한다면 뒤로 갈수록 점점 느려질 수 있습니다. 그 이유는 ```LIMIT 50000 OFFSET 0``` 와 ```LIMIT 50000 OFFSET 50000```의 차이에서 있습니다. 전자는 처음부터 5만 개의 데이터를 가져오지만 후자는 5만 개 이후 5만 1번째부터 10만 개까지의 데이터를 불러옵니다.
+- 거래내역(Transaction)의 경우 테이블의 값이 삭제될 일이 없으므로 PK 값을 조건에 추가한다면 페이징의 성능을 향상시킬 수 있습니다.
+- 천 개씩 조회하고 7페이지라고 가정했을 때 ```where id > 7000 LIMIT 1000 OFFSET 6000 ```와 같이 where 절을 추가합니다.
+
+
+## 폴더 구조
 ```bash
-$ npm install
+|   .eslintrc.js
+|   .gitignore
+|   .prettierrc
+|   nest-cli.json
+|   package-lock.json
+|   package.json
+|   Procfile
+|   README.md
+|   tsconfig.build.json
+|   tsconfig.json
+|
++---src
+|   |   app.controller.spec.ts
+|   |   app.controller.ts
+|   |   app.module.ts
+|   |   app.service.ts
+|   |   main.ts
+|   |
+|   +---accounts
+|   |   |   accounts.controller.spec.ts
+|   |   |   accounts.controller.ts
+|   |   |   accounts.module.ts
+|   |   |   accounts.repository.spec.ts
+|   |   |   accounts.repository.ts
+|   |   |   accounts.service.spec.ts
+|   |   |   accounts.service.ts
+|   |   |
+|   |   +---dto
+|   |   |       create-account.dto.ts
+|   |   |       update-account.dto.ts
+|   |   |
+|   |   \---entities
+|   |           account.entity.ts
+|   |
+|   +---auth
+|   |   |   auth.module.ts
+|   |   |   auth.service.spec.ts
+|   |   |   auth.service.ts
+|   |   |   get-user.decorator.ts
+|   |   |
+|   |   +---auth-guard
+|   |   |       jwt-auth.guard.ts
+|   |   |
+|   |   \---strategies
+|   |           jwt.strategy.ts
+|   |
+|   +---core
+|   |   \---entities
+|   |           core.entity.ts
+|   |
+|   +---transaction
+|   |   |   transaction.controller.spec.ts
+|   |   |   transaction.controller.ts
+|   |   |   transaction.module.ts
+|   |   |   transaction.repository.ts
+|   |   |   transaction.service.ts
+|   |   |
+|   |   +---dto
+|   |   |       create-transaction.dto.ts
+|   |   |
+|   |   \---entities
+|   |           transaction.entity.ts
+|   |
+|   \---users
+|       |   users.controller.spec.ts
+|       |   users.controller.ts
+|       |   users.module.ts
+|       |   users.service.spec.ts
+|       |   users.service.ts
+|       |
+|       +---dto
+|       |       create-user.dto.ts
+|       |       signin.dto.ts
+|       |
+|       \---entities
+|               user.entity.ts
+|-  .eslintrc.js
+|-  .gitignore
+|-  .prettierrc
+|-  nest-cli.json
+|-  package-lock.json
+|-  package.json
+|-  Procfile
+|-  README.md
+|-  tsconfig.build.json
+|-  tsconfig.json
+
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
