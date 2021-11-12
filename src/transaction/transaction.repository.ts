@@ -1,5 +1,5 @@
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
 import * as moment from 'moment-timezone';
 import { Transaction } from './entities/transaction.entity';
 import { ListWithPageAndUserOptions } from './transaction.interface';
@@ -81,5 +81,11 @@ export class TransactionRepository extends Repository<Transaction> {
       .getMany();
     // * select 로 특정 컬럼만 응답에 포함합니다. [거래일시, 거래금액, 잔액, 거래종류, 적요]
     return transaction;
+  }
+  //계좌의 잔액과 출금액을 비교해서 계좌의 잔액이 더 커야함
+  compareMoneyAndAmount(money: number, amount: number) {
+    if (money < amount) {
+      throw new BadRequestException('계좌의 잔액이 부족합니다.');
+    }
   }
 }
