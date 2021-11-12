@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -12,6 +13,7 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index()
   @Column()
   trans_type: string;
 
