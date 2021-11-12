@@ -2,7 +2,7 @@ import { IsInt, IsString, Min, min } from 'class-validator';
 
 export class CreateTransactionDto {
   @IsString()
-  trans_type: string;
+  acc_num: string;
 
   @IsInt()
   @Min(0)

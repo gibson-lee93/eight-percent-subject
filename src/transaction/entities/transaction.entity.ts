@@ -1,3 +1,4 @@
+import { Account } from '../../accounts/entities/account.entity';
 import {
   Column,
   CreateDateColumn,
@@ -26,10 +27,9 @@ export class Transaction {
   @CreateDateColumn()
   createdAt: Date;
 
-  // 나중에 account테이블 생성되면 사용
-  // @ManyToOne((_type) => Account, (account) => account.transactions, {
-  //   eager: false,
-  //   onDelete: 'CASCADE',
-  // })
-  // account: Account;
+  @ManyToOne((_type) => Account, (account) => account.transactions, {
+    eager: false,
+    onDelete: 'CASCADE',
+  })
+  account: Account;
 }
