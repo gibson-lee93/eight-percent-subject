@@ -1,6 +1,10 @@
-import { IsInt, IsString, Min, min } from 'class-validator';
+import { IsInt, IsString, Min } from 'class-validator';
 
 export class CreateTransactionDto {
+
+  @IsString()
+  acc_num: string;
+
   @IsString()
   acc_num: string;
 
