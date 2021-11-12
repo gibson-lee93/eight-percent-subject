@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { AccountsRepository } from './accounts.repository';
@@ -18,16 +13,16 @@ export class AccountsService {
     private accountsRepository: AccountsRepository,
   ) {}
 
-  async findAllAccounts(): Promise<Account[]> {
-    return await this.accountsRepository.find();
+  findAllAccounts(user: User): Promise<Account[]> {
+    return this.accountsRepository.findAllAccounts(user);
   }
 
-  async findOneAccount(id: number): Promise<Account> {
-    const existedAccount = await this.accountsRepository.findOne({ id });
-    if (!existedAccount) {
-      throw new NotFoundException('해당 계좌가 존재하지 않습니다');
-    }
-    return existedAccount;
+  findOneAccount(id: number, user: User): Promise<Account> {
+    return this.accountsRepository.findOneAccount(id, user);
+  }
+
+  findOneByAccountNumber(acc_num: string, user: User): Promise<Account> {
+    return this.accountsRepository.findOneByAccountNumber(acc_num, user);
   }
 
   async createAccount(
@@ -43,20 +38,16 @@ export class AccountsService {
     return await this.accountsRepository.save({ ...createAccountDto, user });
   }
 
-  async updateAccount(
+  updateAccount(
     id: number,
     updateAccountDto: UpdateAccountDto,
+    user: User,
   ): Promise<Account> {
-    if (Object.keys(updateAccountDto).length === 0) {
-      throw new BadRequestException('요청 값이 잘못되었습니다');
-    }
-    const account = await this.findOneAccount(id);
-    account.money = updateAccountDto.money;
-    return await this.accountsRepository.save(account);
+    return this.accountsRepository.updateAccount(id, updateAccountDto, user);
   }
 
-  async deleteAccount(id: number): Promise<{ message: string }> {
-    await this.findOneAccount(id);
+  async deleteAccount(id: number, user: User): Promise<{ message: string }> {
+    await this.findOneAccount(id, user);
     await this.accountsRepository.softDelete({ id });
     return { message: '계좌 삭제 완료' };
   }

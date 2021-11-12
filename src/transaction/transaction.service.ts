@@ -1,5 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectConnection } from '@nestjs/typeorm';
 import { AccountsRepository } from '../accounts/accounts.repository';
 import { User } from '../users/entities/user.entity';
 import { Connection } from 'typeorm';
@@ -31,71 +35,33 @@ export class TransactionService {
     // 트랜잭션 시작
     await queryRunner.startTransaction();
     try {
-      // 입금 trans_type===in 경우만 허용
-      if (createTransactionDto.trans_type !== 'in') {
-        throw new BadRequestException('trans_type');
-      }
-
-      // 해당 유저의 계좌번호가 존재 하는지 확인
-      const found = await transactionRepository.findByUserIdAndAccount(
-        accountsRepository,
+      // 해당 유저의 계좌번호로 계좌정보 가져오기
+      const account = await accountsRepository.findOneByAccountNumber(
+        createTransactionDto.acc_num,
         user,
-        createTransactionDto,
-      );
-      if (found < 1) {
-        throw new BadRequestException('acc_num');
-      }
-
-      // 해당계좌 얻어오기
-      const account = await accountsRepository.findOne({
-        acc_num: createTransactionDto.acc_num,
-      });
-
-      // 해당계좌의 거래내역중 최신 잔액
-      const transaction = await transactionRepository.findByRecentBalance(
-        account,
       );
 
-      // 해당계좌의 거래내역이 없는 경우(처음 거래)
-      if (!transaction) {
-        transactionRepository.save(
-          transactionRepository.create({
-            ...createTransactionDto,
-            balance: createTransactionDto.amount,
-            account,
-          }),
-        );
-        // 해당계좌의 거래내역이 있는 경우
-      } else {
-        transactionRepository.save(
-          transactionRepository.create({
-            ...createTransactionDto,
-            balance: transaction.balance + createTransactionDto.amount,
-            account,
-          }),
-        );
-      }
+      // 해당계좌의 거래내역이 생성
+      await transactionRepository.save(
+        transactionRepository.create({
+          ...createTransactionDto,
+          balance: account.money + createTransactionDto.amount,
+          trans_type: 'in',
+          account,
+        }),
+      );
 
       // 해당계좌의 잔액 증가
-      account.money += createTransactionDto.amount;
-      // 순환 참조때문에 문제가 생긴듯 그래서 삭제
-      delete account.transactions;
-      await accountsRepository.save(
-        accountsRepository.create({
-          ...account,
-        }),
+      await accountsRepository.updateAccount(
+        account.id,
+        { money: account.money + createTransactionDto.amount },
+        user,
       );
 
       await queryRunner.commitTransaction();
     } catch (e) {
       await queryRunner.rollbackTransaction();
-      let message = '';
-      if (e.message === 'trans_type') {
-        message = 'trans_type이 정확하지 않습니다.';
-      } else if (e.message === 'acc_num') {
-        message = 'acc_num(계좌번호)가 정확하지 않습니다.';
-      }
-      throw new BadRequestException(message);
+      throw new BadRequestException(e.message);
     } finally {
       await queryRunner.release();
     }
