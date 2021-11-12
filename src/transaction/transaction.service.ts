@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotAcceptableException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -154,5 +155,13 @@ export class TransactionService {
       await queryRunner.release();
     }
     return { message: 'ok' };
+  }
+
+  async getOneTransaction(id: number): Promise<Transaction> {
+    const result = await this.transactionRepository.findOne(id);
+    if (!result) {
+      throw new NotFoundException('해당 거래내역을 찾을 수 없습니다.');
+    }
+    return result;
   }
 }

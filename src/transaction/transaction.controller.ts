@@ -1,4 +1,12 @@
-import { Controller, Get, Query, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Body,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/auth-guard/jwt-auth.guard';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../users/entities/user.entity';
@@ -28,7 +36,13 @@ export class TransactionController {
       user,
     });
   }
-  
+
+  @Get('/:id')
+  @UseGuards(JwtAuthGuard)
+  async findOneTransaction(@Param('id') id: string): Promise<Transaction> {
+    return this.transactionService.getOneTransaction(Number(id));
+  }
+
   @Post('/deposit')
   deposit(
     @GetUser() user: User,
