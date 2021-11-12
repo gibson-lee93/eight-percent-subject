@@ -48,4 +48,11 @@ describe('TransactionController', () => {
       expect(result).toEqual({ message: 'ok' });
     });
   });
+  describe('withdraw', () => {
+    it('출금', async () => {
+      jest.spyOn(service, 'withdraw').mockResolvedValue({ message: 'ok' });
+      const result = await controller.withdraw(user, createTransactionDto);
+      expect(result).toEqual({ message: 'ok' });
+    });
+  });
 });
