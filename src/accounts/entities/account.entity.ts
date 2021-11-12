@@ -1,6 +1,8 @@
 import { CoreEntity } from '../../core/entities/core.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
 import { Transaction } from 'src/transaction/entities/transaction.entity';
+
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Account extends CoreEntity {
@@ -14,4 +16,10 @@ export class Account extends CoreEntity {
     eager: true,
   })
   transactions: Transaction[];
+
+  @ManyToOne((_type) => User, (user) => user.accounts, {
+    eager: false,
+    onDelete: 'CASCADE',
+  })
+  user: User;
 }

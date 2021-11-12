@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
+import { count } from 'console';
 import { AccountsRepository } from 'src/accounts/accounts.repository';
+import { User } from 'src/users/entities/user.entity';
 import {
   Connection,
   EntityManager,
@@ -20,6 +22,7 @@ export class TransactionService {
   ) {}
 
   async deposit(
+    user: User,
     createTransactionDto: CreateTransactionDto,
   ): Promise<{ message: string }> {
     // queryRunner 커넥션
@@ -36,9 +39,19 @@ export class TransactionService {
     // 트랜잭션 시작
     await queryRunner.startTransaction();
     try {
-      // 입금 일 경우만 허용
+      // 입금 trans_type===in 경우만 허용
       if (createTransactionDto.trans_type !== 'in') {
         throw new BadRequestException('trans_type');
+      }
+
+      // 해당 유저의 계좌번호가 존재 하는지 확인
+      const found = await transactionRepository.findByUserIdAndAccount(
+        accountsRepository,
+        user,
+        createTransactionDto,
+      );
+      if (found < 1) {
+        throw new BadRequestException('acc_num');
       }
 
       // 해당계좌 얻어오기
@@ -51,7 +64,6 @@ export class TransactionService {
         account,
       );
 
-      // console.log(transaction.balance);
       // 해당계좌의 거래내역이 없는 경우(처음 거래)
       if (!transaction) {
         transactionRepository.save(
@@ -71,6 +83,17 @@ export class TransactionService {
           }),
         );
       }
+
+      // 해당계좌의 잔액 증가
+      account.money += createTransactionDto.amount;
+      // 순환 참조때문에 문제가 생긴듯 그래서 삭제
+      delete account.transactions;
+      await accountsRepository.save(
+        accountsRepository.create({
+          ...account,
+        }),
+      );
+
       await queryRunner.commitTransaction();
     } catch (e) {
       await queryRunner.rollbackTransaction();

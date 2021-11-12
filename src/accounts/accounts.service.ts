@@ -1,7 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountsRepository } from './accounts.repository';
 import { CreateAccountDto } from './dto/create-account.dto';
+import { UpdateAccountDto } from './dto/update-account.dto';
 import { Account } from './entities/account.entity';
 
 @Injectable()
@@ -24,6 +30,30 @@ export class AccountsService {
   }
 
   async createAccount(createAccountDto: CreateAccountDto): Promise<Account> {
+    const existedAccount = await this.accountsRepository.findOne({
+      ...createAccountDto,
+    });
+    if (existedAccount) {
+      throw new ConflictException('이미 사용 중인 계좌번호입니다');
+    }
     return await this.accountsRepository.save({ ...createAccountDto });
+  }
+
+  async updateAccount(
+    id: number,
+    updateAccountDto: UpdateAccountDto,
+  ): Promise<Account> {
+    if (Object.keys(updateAccountDto).length === 0) {
+      throw new BadRequestException('요청 값이 잘못되었습니다');
+    }
+    const account = await this.findOneAccount(id);
+    account.money = updateAccountDto.money;
+    return await this.accountsRepository.save(account);
+  }
+
+  async deleteAccount(id: number): Promise<{ message: string }> {
+    await this.findOneAccount(id);
+    await this.accountsRepository.softDelete({ id });
+    return { message: '계좌 삭제 완료' };
   }
 }
