@@ -9,10 +9,11 @@ export class TransactionRepository extends Repository<Transaction> {
     offset,
     startDate,
     endDate,
+    acc_num,
   }: PagingOptions): Promise<Transaction[]> {
     const transaction = await this.createQueryBuilder('transaction')
-      // .where(startDate, endDate)
-      .where('createdAt >= :startDate', {
+      .where('account_id = :acc_num', { acc_num })
+      .andWhere('createdAt >= :startDate', {
         startDate,
       })
       .andWhere('createdAt <= :endDate', { endDate })
