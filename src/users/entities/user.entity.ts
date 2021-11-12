@@ -1,7 +1,7 @@
 import { BeforeInsert, Column, Entity } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
-import { CoreEntity } from 'src/core/entities/core.entity';
+import { CoreEntity } from '../../core/entities/core.entity';
 
 @Entity()
 export class User extends CoreEntity {
