@@ -28,12 +28,13 @@ export class TransactionController {
       user,
     });
   }
-  
+
   @Get('/:id')
   @UseGuards(JwtAuthGuard)
   async findOneTransaction(@Param('id') id: string): Promise<Transaction> {
-  return this.transactionService.getOneTransaction(Number(id));
-  
+    return this.transactionService.getOneTransaction(Number(id));
+  }
+
   @Post('/deposit')
   deposit(
     @GetUser() user: User,
