@@ -6,7 +6,7 @@ export class CreateTransactionDto {
   acc_num: string;
 
   @IsString()
-  trans_type: string;
+  acc_num: string;
 
   @IsInt()
   @Min(0)
