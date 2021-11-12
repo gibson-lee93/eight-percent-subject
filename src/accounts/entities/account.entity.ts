@@ -11,11 +11,6 @@ export class Account extends CoreEntity {
   @Column({ default: 0 })
   money: number;
 
-  @OneToMany((_type) => Transaction, (transaction) => transaction.account, {
-    eager: true,
-  })
-  transactions: Transaction[];
-
   @ManyToOne((_type) => User, (user) => user.accounts, {
     eager: false,
     onDelete: 'CASCADE',
