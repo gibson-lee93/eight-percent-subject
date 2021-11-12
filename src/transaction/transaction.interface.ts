@@ -8,7 +8,6 @@ export interface ListQueryOptions {
   endDate?: string;
 }
 
-export interface PagingOptions extends ListQueryOptions {
 export interface ListWithPageAndUserOptions extends ListQueryOptions {
   user?: User;
   limit: number;
