@@ -4,7 +4,6 @@ import * as moment from 'moment-timezone';
 import { Transaction } from './entities/transaction.entity';
 import { ListWithPageAndUserOptions } from './transaction.interface';
 
-@Injectable()
 @EntityRepository(Transaction)
 export class TransactionRepository extends Repository<Transaction> {
   private getDatePeriod(
@@ -87,8 +86,5 @@ export class TransactionRepository extends Repository<Transaction> {
     if (money < amount) {
       throw new BadRequestException('계좌의 잔액이 부족합니다.');
     }
-  }
-  async getOneTransaction(id: number) {
-    return this.findOne(id);
   }
 }
