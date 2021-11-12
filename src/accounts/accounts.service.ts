@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -29,6 +30,12 @@ export class AccountsService {
   }
 
   async createAccount(createAccountDto: CreateAccountDto): Promise<Account> {
+    const existedAccount = await this.accountsRepository.findOne({
+      ...createAccountDto,
+    });
+    if (existedAccount) {
+      throw new ConflictException('이미 사용 중인 계좌번호입니다');
+    }
     return await this.accountsRepository.save({ ...createAccountDto });
   }
 

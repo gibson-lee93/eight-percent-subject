@@ -28,7 +28,7 @@ export class Transaction {
   createdAt: Date;
 
   @ManyToOne((_type) => Account, (account) => account.transactions, {
-    eager: false,
+    eager: true,
     onDelete: 'CASCADE',
   })
   account: Account;
