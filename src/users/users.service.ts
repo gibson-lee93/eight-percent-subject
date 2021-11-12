@@ -65,4 +65,11 @@ export class UsersService {
     }
     return user;
   }
+
+  async signOut(user: User): Promise<{ message: string }> {
+    const userInfo = await this.findOneByUserId(user.user_id);
+    userInfo.loginedAt = null;
+    await this.usersRepository.save(userInfo);
+    return { message: '로그아웃 완료' };
+  }
 }
