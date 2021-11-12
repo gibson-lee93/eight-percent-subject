@@ -158,8 +158,7 @@ export class TransactionService {
   }
 
   async getOneTransaction(id: number): Promise<Transaction> {
-    // return this.transactionRepository.getOneTransaction(id);
-    const result = this.transactionRepository.findOne();
+    const result = await this.transactionRepository.findOne(id);
     if (!result) {
       throw new NotFoundException('해당 거래내역을 찾을 수 없습니다.');
     }
