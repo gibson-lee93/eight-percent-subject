@@ -22,13 +22,16 @@ export class AccountsController {
   constructor(private readonly accountsService: AccountsService) {}
 
   @Get()
-  findAllAccounts(): Promise<Account[]> {
-    return this.accountsService.findAllAccounts();
+  findAllAccounts(@GetUser() user: User): Promise<Account[]> {
+    return this.accountsService.findAllAccounts(user);
   }
 
   @Get('/:id')
-  findOneAccount(@Param('id') id: string): Promise<Account> {
-    return this.accountsService.findOneAccount(+id);
+  findOneAccount(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<Account> {
+    return this.accountsService.findOneAccount(+id, user);
   }
 
   @Post()
@@ -43,12 +46,16 @@ export class AccountsController {
   updateAccount(
     @Param('id') id: string,
     @Body() updateAccountDto: UpdateAccountDto,
+    @GetUser() user: User,
   ): Promise<Account> {
-    return this.accountsService.updateAccount(+id, updateAccountDto);
+    return this.accountsService.updateAccount(+id, updateAccountDto, user);
   }
 
   @Delete('/:id')
-  deleteAccount(@Param('id') id: string): Promise<{ message: string }> {
-    return this.accountsService.deleteAccount(+id);
+  deleteAccount(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<{ message: string }> {
+    return this.accountsService.deleteAccount(+id, user);
   }
 }
