@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AccountsRepository } from 'src/accounts/accounts.repository';
-import { Account } from 'src/accounts/entities/account.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Account } from '../accounts/entities/account.entity';
+import { User } from '../users/entities/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { Transaction } from './entities/transaction.entity';

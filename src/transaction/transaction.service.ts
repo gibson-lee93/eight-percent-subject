@@ -1,22 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
-import { count } from 'console';
-import { AccountsRepository } from 'src/accounts/accounts.repository';
-import { User } from 'src/users/entities/user.entity';
-import {
-  Connection,
-  EntityManager,
-  Transaction,
-  TransactionManager,
-} from 'typeorm';
+import { AccountsRepository } from '../accounts/accounts.repository';
+import { User } from '../users/entities/user.entity';
+import { Connection } from 'typeorm';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionRepository } from './transaction.repository';
 
 @Injectable()
 export class TransactionService {
   constructor(
-    @InjectRepository(AccountsRepository)
-    private accountsRepository: AccountsRepository,
     @InjectConnection()
     private connection: Connection,
   ) {}
