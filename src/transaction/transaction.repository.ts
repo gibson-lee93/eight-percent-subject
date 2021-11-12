@@ -1,8 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import * as moment from 'moment-timezone';
 import { Transaction } from './entities/transaction.entity';
 import { ListWithPageAndUserOptions } from './transaction.interface';
 
+@Injectable()
 @EntityRepository(Transaction)
 export class TransactionRepository extends Repository<Transaction> {
   private getDatePeriod(
