@@ -1,5 +1,5 @@
 import { CoreEntity } from '../../core/entities/core.entity';
-import { Transaction } from 'src/transaction/entities/transaction.entity';
+import { Transaction } from '../../transaction/entities/transaction.entity';
 
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
