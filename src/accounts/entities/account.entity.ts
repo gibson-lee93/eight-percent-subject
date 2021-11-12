@@ -4,10 +4,10 @@ import { Transaction } from 'src/transaction/entities/transaction.entity';
 
 @Entity()
 export class Account extends CoreEntity {
-  @Column()
+  @Column({ unique: true })
   acc_num: string;
 
-  @Column()
+  @Column({ default: 0 })
   money: number;
 
   @OneToMany((_type) => Transaction, (transaction) => transaction.account, {
