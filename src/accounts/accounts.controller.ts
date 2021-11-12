@@ -8,6 +8,8 @@ import {
   Patch,
   UseGuards,
 } from '@nestjs/common';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../users/entities/user.entity';
 import { JwtAuthGuard } from '../auth/auth-guard/jwt-auth.guard';
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
@@ -30,8 +32,11 @@ export class AccountsController {
   }
 
   @Post()
-  createAccount(@Body() createAccountDto: CreateAccountDto): Promise<Account> {
-    return this.accountsService.createAccount(createAccountDto);
+  createAccount(
+    @Body() createAccountDto: CreateAccountDto,
+    @GetUser() user: User,
+  ): Promise<Account> {
+    return this.accountsService.createAccount(createAccountDto, user);
   }
 
   @Patch('/:id')
