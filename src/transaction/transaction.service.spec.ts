@@ -98,7 +98,7 @@ describe('TransactionService', () => {
   };
   const createTransactionDto: CreateTransactionDto = {
     acc_num: 'testNum',
-    amount: 1000,
+    amount: '1000',
     comments: 'testComments',
   };
 
@@ -127,7 +127,7 @@ describe('TransactionService', () => {
     };
     const createTransactionDto: CreateTransactionDto = {
       acc_num: 'testNum',
-      amount: 1000,
+      amount: '1000',
       comments: 'testComments',
     };
     const accoutObject: Account = {
