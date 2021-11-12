@@ -62,7 +62,7 @@
 | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | 이현준(조장) | [깃허브](https://github.com/lhj0621)/[블로그](https://supiz.tistory.com/)                                                                       | 총괄, 회원가입, 로그인, 로그인 인증, 로그아웃, 유닛 테스트, 헤로쿠 배포 |
 | 김태련       | [깃허브](https://github.com/nojamcode)/[블로그](https://velog.io/@code-link)                                                                    | 입금, 출금, 유닛테스트                                                  |
-| 신영학       | [깃허브](https://github.com/yhshin0)/[블로그](https://nbkw.tistory.com/)                                                                        | 계좌 CRUD, 유닛 테스트                                                  |
+| 신영학       | [깃허브](https://github.com/yhshin0)/[블로그](https://nbkw.tistory.com/)                                                                        | 계좌 CRUD, 유닛 테스트, functional test 작성                               |
 | 임유라       | [깃허브](https://github.com/BangleCoding)/[블로그](https://banglecoding.github.io/)                                                             | 거래내역 조회 쿼리, 거래내역 상세조회 기능 구현 테스트                  |
 | 이기범       | [깃허브](https://github.com/gibson-lee93)/[블로그](https://mysterious-laborer-518.notion.site/Gibson-s-Notion-2dd7f598fba64f1c9806cded5b4b83a0) | 계좌 CRUD, 유닛 테스트, README 작성                                     |
 | 정진산       | [깃허브](https://github.com/chinsanchung)/[블로그](https://chinsanchung.github.io/)                                                             | 거래내역 목록 조회, 거래내역 컨트롤러의 유닛 테스트                     |
@@ -150,6 +150,9 @@ Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://p
 ## 테스트
 
 ![image](https://user-images.githubusercontent.com/42320464/140993810-a6384238-6c6b-473a-8ab2-5b34ae13f96f.png)
+
+### Functional test
+[Functional test](https://github.com/wanted-wecode-subjects/eight-percent-subject/wiki/functional-test)
 
 ## 폴더 구조
 
