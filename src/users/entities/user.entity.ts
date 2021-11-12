@@ -16,7 +16,7 @@ export class User extends CoreEntity {
   loginedAt: Date;
 
   @OneToMany((_type) => Account, (account) => account.user, {
-    eager: false,
+    eager: true,
     cascade: true,
   })
   accounts: Account[];

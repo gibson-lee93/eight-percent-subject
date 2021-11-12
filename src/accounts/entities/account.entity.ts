@@ -11,7 +11,7 @@ export class Account extends CoreEntity {
   money: number;
 
   @ManyToOne((_type) => User, (user) => user.accounts, {
-    eager: true,
+    eager: false,
     onDelete: 'CASCADE',
   })
   user: User;
