@@ -22,8 +22,8 @@ export class TransactionController {
     });
   }
 
-  // @Get(':/id')
-  // async getOneTransaction(@Param('id') id: string): Promise<Transaction> {
-  //   return this.transactionService.getOneTransaction(+id);
-  // }
+  @Get('/:id')
+  async findOneTransaction(@Param('id') id: string): Promise<Transaction> {
+    return this.transactionService.getOneTransaction(Number(id));
+  }
 }

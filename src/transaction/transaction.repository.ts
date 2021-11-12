@@ -46,4 +46,8 @@ export class TransactionRepository extends Repository<Transaction> {
     // console.log(transaction);
     return transaction;
   }
+
+  async getOneTransaction(id: number) {
+    return this.findOne(id);
+  }
 }

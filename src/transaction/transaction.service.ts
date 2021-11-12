@@ -15,4 +15,8 @@ export class TransactionService {
 
     return result;
   }
+
+  async getOneTransaction(id: number): Promise<Transaction> {
+    return this.transactionRepository.getOneTransaction(id);
+  }
 }
