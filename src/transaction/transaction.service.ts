@@ -24,6 +24,21 @@ export class TransactionService {
     @InjectConnection()
     private connection: Connection,
   ) {}
+  // * 거래금액을 문자열에서 숫자로 바꿉니다. 변환 과정에서 그 기준에 모자를 경우 에러를 보냅니다.
+  private convertAmountToNumber(amount: string): number {
+    const intAmount = +amount;
+    if (intAmount < 0) {
+      throw new BadRequestException('거래금액은 0원 이상이어야 합니다.');
+    }
+    return intAmount;
+  }
+  //계좌의 잔액과 출금액을 비교해서 계좌의 잔액이 더 커야함
+  private compareMoneyAndAmount(money: number, amount: number): void {
+    if (money < amount) {
+      throw new BadRequestException('계좌의 잔액이 부족합니다.');
+    }
+    return;
+  }
 
   async getAllTransactions(
     query: ListWithPageAndUserOptions,
@@ -71,12 +86,15 @@ export class TransactionService {
         createTransactionDto.acc_num,
         user,
       );
+      // * 거래금액을 문자열에서 숫자로 변환합니다.
+      const amount = this.convertAmountToNumber(createTransactionDto.amount);
 
       // 해당계좌의 거래내역이 생성
       await transactionRepository.save(
         transactionRepository.create({
           ...createTransactionDto,
-          balance: account.money + createTransactionDto.amount,
+          amount,
+          balance: account.money + amount,
           trans_type: 'in',
           account,
         }),
@@ -85,7 +103,7 @@ export class TransactionService {
       // 해당계좌의 잔액 증가
       await accountsRepository.updateAccount(
         account.id,
-        { money: account.money + createTransactionDto.amount },
+        { money: account.money + amount },
         user,
       );
 
@@ -122,18 +140,17 @@ export class TransactionService {
         createTransactionDto.acc_num,
         user,
       );
-
+      // * 거래금액을 문자열에서 숫자로 변환합니다.
+      const amount = this.convertAmountToNumber(createTransactionDto.amount);
       //계좌의 잔액과 출금액을 비교해서 계좌의 잔액이 더 커야함
-      await transactionRepository.compareMoneyAndAmount(
-        account.money,
-        createTransactionDto.amount,
-      );
+      this.compareMoneyAndAmount(account.money, amount);
 
       // 해당계좌의 거래내역이 생성
       await transactionRepository.save(
         transactionRepository.create({
           ...createTransactionDto,
-          balance: account.money - createTransactionDto.amount,
+          amount,
+          balance: account.money - amount,
           trans_type: 'out',
           account,
         }),
@@ -142,7 +159,7 @@ export class TransactionService {
       // 해당계좌의 잔액 감소
       await accountsRepository.updateAccount(
         account.id,
-        { money: account.money - createTransactionDto.amount },
+        { money: account.money - amount },
         user,
       );
 
