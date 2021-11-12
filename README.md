@@ -65,7 +65,7 @@
 | 신영학       | [깃허브](https://github.com/yhshin0)/[블로그](https://nbkw.tistory.com/)                                                                        | 계좌 CRUD, 유닛 테스트                                                  |
 | 임유라       | [깃허브](https://github.com/BangleCoding)/[블로그](https://banglecoding.github.io/)                                                             | 계좌 조회 쿼리, 계좌 상세조회 기능 구현 테스트                          |
 | 이기범       | [깃허브](https://github.com/gibson-lee93)/[블로그](https://mysterious-laborer-518.notion.site/Gibson-s-Notion-2dd7f598fba64f1c9806cded5b4b83a0) | 계좌 CRUD, 유닛 테스트, README 작성                                     |
-| 정진산       | [깃허브](https://github.com/chinsanchung)/[블로그](https://chinsanchung.github.io/)                                                             |                                                                         |
+| 정진산       | [깃허브](https://github.com/chinsanchung)/[블로그](https://chinsanchung.github.io/)                                                             | 계죄내역 목록 조회, 거래내역 컨트롤러의 유닛 테스트                     |
 
 ## 개발 환경
 
@@ -111,11 +111,16 @@
 
 ### 거래내역
 
-- 입금, 출금 내역을 거래내역 조회를 통해 확인합니다.
+- 거래내역의 목록, 그리고 한 개의 거래내역을 조회하는 기능을 작성했습니다.
 - 거래내역을 조회할 때, JWT를 이용하여 해당 계좌가 로그인 유저의 계좌와 일치하는지 확인합니다.
-- 전체 거래내역은 입금/출금, 연,월,시 등의 검색 조건을 지정하여 검색할 수 있습니다.
-- 전체 거래내역 조회 시 페이지네이션을 사용하였습니다.
-- 각 거래내역의 id를 입력받아 해당 거래내역을 상세 조회 할 수 있습니다.
+- 목록은 1페이지에 다섯 항목을 보여주며, 요청을 위한 쿼리는 다음과 같습니다.
+  - acc_num: 계좌번호를 입력합니다. 필수로 입력하는 값입니다.
+  - startDate: 거래일시의 시작을 입력합니다. `YYYY-MM-DD` 형식으로 작성합니다. 만약 이 값을 입력하지 않는다면 "오늘을 기준으로 3개월 전"으로 설정합니다.
+  - endDate: 거래일시의 끝을 입력합니다. 시작일과 동일하게 `YYYY-MM-DD` 형식으로 작성합니다. 생략할 경우 기본값인 "오늘 날짜의 23시 59분 59초"로 설정합니다.
+  - page: 페이지 번호를 입력합니다. 1페이지부터 시작합니다.
+  - trans_type: 거래의 종류입니다. "in"은 입금, "out"은 출금입니다. 이 값을 생략할 경우 입금과 출력 모두를 출력합니다.
+- 목록을 조회할 때 [moment-timezone](https://momentjs.com/timezone/)을 이용해 시간대를 서울으로 고정하고, 날짜를 지정한 형식의 문자열로 출력하거나 날짜를 계산할 때 사용했습니다.
+- 각 거래내역의 아이디를 통해 해당 거래에 대한 내역을 조회할 수 있습니다.
 
 ## API 문서
 
