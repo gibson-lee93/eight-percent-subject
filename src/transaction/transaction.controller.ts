@@ -1,8 +1,11 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-auth.guard';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/auth-guard/jwt-auth.guard';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../users/entities/user.entity';
 import { Transaction } from './entities/transaction.entity';
 import { ListQueryOptions } from './transaction.interface';
 import { TransactionService } from './transaction.service';
+
 @Controller('transaction')
 export class TransactionController {
   constructor(private transactionService: TransactionService) {}
@@ -11,19 +14,16 @@ export class TransactionController {
   @UseGuards(JwtAuthGuard)
   async getAllTransactions(
     @Query() query: ListQueryOptions,
+    @GetUser() user: User,
   ): Promise<Transaction[]> {
     const limit = 5;
-    const offset = query.page ? (Number(query.page) - 1) * Number(limit) : 0;
-    // const account_id;
+    const offset = query.page ? (Number(query.page) - 1) * limit : 0;
+
     return this.transactionService.getAllTransactions({
       ...query,
       limit,
       offset,
+      user,
     });
   }
-
-  // @Get(':/id')
-  // async getOneTransaction(@Param('id') id: string): Promise<Transaction> {
-  //   return this.transactionService.getOneTransaction(+id);
-  // }
 }

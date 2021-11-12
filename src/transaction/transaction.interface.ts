@@ -1,3 +1,5 @@
+import { User } from '../users/entities/user.entity';
+
 export interface ListQueryOptions {
   account_id?: string;
   page: string;
@@ -7,6 +9,7 @@ export interface ListQueryOptions {
 }
 
 export interface PagingOptions extends ListQueryOptions {
+  user?: User;
   limit: number;
   offset: number;
 }
