@@ -13,6 +13,8 @@ import { TransactionRepository } from './transaction.repository';
 import { TransactionService } from './transaction.service';
 import { User } from 'src/users/entities/user.entity';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { AccountsModule } from 'src/accounts/accounts.module';
+import { AccountsService } from 'src/accounts/accounts.service';
 
 const mockTransactionRepository = () => ({
   save: jest.fn(),
@@ -29,8 +31,8 @@ type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 describe('TransactionService', () => {
   let service: TransactionService;
   let connection: Connection;
-  let accountsRepository: MockRepository<AccountsRepository>;
-  let transactionRepository: MockRepository<TransactionRepository>;
+  let accountsRepository: AccountsRepository;
+  let transactionRepository: TransactionRepository;
 
   const qr = {
     manager: {},
@@ -51,17 +53,18 @@ describe('TransactionService', () => {
     qr.startTransaction = jest.fn();
     qr.commitTransaction = jest.fn();
     qr.rollbackTransaction = jest.fn();
+    qr.manager.getCustomRepository = jest.fn();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         TransactionService,
         {
-          provide: getRepositoryToken(Account),
-          useValue: mockAccountsRepository,
+          provide: TransactionRepository,
+          useFactory: mockTransactionRepository,
         },
         {
-          provide: getRepositoryToken(Transaction),
-          useValue: mockTransactionRepository,
+          provide: AccountsRepository,
+          useFactory: mockAccountsRepository,
         },
         { provide: Connection, useClass: ConnectionMock },
       ],
@@ -69,12 +72,10 @@ describe('TransactionService', () => {
 
     service = module.get<TransactionService>(TransactionService);
     connection = module.get<Connection>(Connection);
-    transactionRepository = module.get<MockRepository<Transaction>>(
-      getRepositoryToken(Transaction),
+    transactionRepository = module.get<TransactionRepository>(
+      TransactionRepository,
     );
-    accountsRepository = module.get<MockRepository<Account>>(
-      getRepositoryToken(Transaction),
-    );
+    accountsRepository = module.get<AccountsRepository>(AccountsRepository);
   });
 
   it('should be defined', () => {
@@ -107,15 +108,29 @@ describe('TransactionService', () => {
     beforeEach(() => {
       queryRunner = connection.createQueryRunner();
       jest.spyOn(queryRunner, 'connect').mockResolvedValueOnce(undefined);
-      jest
-        .spyOn(queryRunner, 'startTransaction')
-        .mockResolvedValueOnce(undefined);
     });
 
     afterEach(() => {
       jest.spyOn(queryRunner, 'release').mockResolvedValue();
     });
-    const accout: Account = {
+
+    const user: User = {
+      id: 1,
+      user_id: '1',
+      password: '123',
+      hashPassword: undefined,
+      loginedAt: new Date(),
+      accounts: null,
+      deletedAt: null,
+      updatedAt: new Date(),
+      createdAt: new Date(),
+    };
+    const createTransactionDto: CreateTransactionDto = {
+      acc_num: 'testNum',
+      amount: 1000,
+      comments: 'testComments',
+    };
+    const accoutObject: Account = {
       id: 1,
       acc_num: 'test',
       money: 100,
@@ -127,13 +142,23 @@ describe('TransactionService', () => {
     };
 
     it('계좌입금에 성공', async () => {
-      const userRepo = {
-        findOneByAccountNumber: jest.fn().mockResolvedValueOnce('fake user'),
-      };
       jest
         .spyOn(queryRunner.manager, 'getCustomRepository')
-        .mockResolvedValue();
+        .mockReturnValueOnce(undefined);
+      jest
+        .spyOn(queryRunner, 'startTransaction')
+        .mockResolvedValueOnce(undefined);
+
+      jest
+        .spyOn(accountsRepository, 'findOneByAccountNumber')
+        .mockResolvedValue(accoutObject);
+      // jest.spyOn(transactionRepository, 'save').mockResolvedValue(undefined);
+      // jest
+      //   .spyOn(accountsRepository, 'updateAccount')
+      //   .mockResolvedValue(undefined);
+      // accountsRepository.findOneByAccountNumber.
       const result = await service.deposit(user, createTransactionDto);
+
       expect(result).toEqual({ message: 'ok' });
     });
   });
