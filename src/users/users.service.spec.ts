@@ -46,7 +46,10 @@ describe('UsersService', () => {
   });
 
   it('should be defined', () => {
+    expect.assertions(3);
     expect(service).toBeDefined();
+    expect(authService).toBeDefined();
+    expect(userRepository).toBeDefined();
   });
 
   describe('createUser', () => {
