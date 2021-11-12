@@ -126,13 +126,13 @@
 
 <!-- TODO -->
 
-API 테스트를 위한 방법을 [POSTMAN document](https://documenter.getpostman.com/view/15323948/UVC5F7xT)에서 확인하실 수 있습니다.
+API 테스트를 위한 방법을 [POSTMAN document](https://documenter.getpostman.com/view/15323948/UVC8CRnQ)에서 확인하실 수 있습니다.
 
 ## 배포
 
 <!-- TODO -->
 
-Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://pocky-redbrick-subject.herokuapp.com/](https://pocky-redbrick-subject.herokuapp.com/) 입니다.
+Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://eight-percent-subject.herokuapp.com/](https://eight-percent-subject.herokuapp.com/) 입니다.
 
 ## 설치 및 실행 방법
 
@@ -148,8 +148,8 @@ Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://p
 1. 계좌 생성, 입금, 출금 등 권한이 필요한 API의 주소를 입력한 후, Headers 의 Authorization에 accessToken을 붙여넣어 권한을 얻은 후 API를 호출합니다.
 
 ## 테스트
+![image](https://user-images.githubusercontent.com/42320464/141520789-1c50e86c-2851-4982-864f-ba7927e24dc1.png)
 
-![image](https://user-images.githubusercontent.com/42320464/140993810-a6384238-6c6b-473a-8ab2-5b34ae13f96f.png)
 
 ### Functional test
 [Functional test](https://github.com/wanted-wecode-subjects/eight-percent-subject/wiki/functional-test)
@@ -165,12 +165,8 @@ Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://p
 |   package.json
 |   Procfile
 |   README.md
-|   tree.txt
 |   tsconfig.build.json
 |   tsconfig.json
-|
-+---.github
-|       PULL_REQUEST_TEMPLATE.md
 |
 +---src
 |   |   app.controller.spec.ts
@@ -179,71 +175,73 @@ Heroku를 이용해 배포를 진행했으며, 사이트의 주소는 [https://p
 |   |   app.service.ts
 |   |   main.ts
 |   |
+|   +---accounts
+|   |   |   accounts.controller.spec.ts
+|   |   |   accounts.controller.ts
+|   |   |   accounts.module.ts
+|   |   |   accounts.repository.spec.ts
+|   |   |   accounts.repository.ts
+|   |   |   accounts.service.spec.ts
+|   |   |   accounts.service.ts
+|   |   |
+|   |   +---dto
+|   |   |       create-account.dto.ts
+|   |   |       update-account.dto.ts
+|   |   |
+|   |   \---entities
+|   |           account.entity.ts
+|   |
 |   +---auth
-|   |   |   auth.controller.ts
 |   |   |   auth.module.ts
 |   |   |   auth.service.spec.ts
 |   |   |   auth.service.ts
 |   |   |   get-user.decorator.ts
-|   |   |   jwt-auth.guard.ts
-|   |   |   jwt.strategy.ts
 |   |   |
-|   |   \---dto
-|   |           login-user.dto.ts
-|   |
-|   +---cache
-|   |       cache.module.ts
-|   |       cache.service.ts
+|   |   +---auth-guard
+|   |   |       jwt-auth.guard.ts
+|   |   |
+|   |   \---strategies
+|   |           jwt.strategy.ts
 |   |
 |   +---core
 |   |   \---entities
 |   |           core.entity.ts
 |   |
-|   +---game
-|   |   |   game.controller.ts
-|   |   |   game.module.ts
-|   |   |   game.repository.ts
-|   |   |   game.service.spec.ts
-|   |   |   game.service.ts
+|   +---transaction
+|   |   |   transaction.controller.spec.ts
+|   |   |   transaction.controller.ts
+|   |   |   transaction.module.ts
+|   |   |   transaction.repository.ts
+|   |   |   transaction.service.ts
 |   |   |
 |   |   +---dto
-|   |   |       create-game.dto.ts
-|   |   |       update-game.dto.ts
+|   |   |       create-transaction.dto.ts
 |   |   |
 |   |   \---entities
-|   |           game.entity.ts
-|   |
-|   +---projects
-|   |   |   projects.controller.spec.ts
-|   |   |   projects.controller.ts
-|   |   |   projects.interface.ts
-|   |   |   projects.module.ts
-|   |   |   projects.service.spec.ts
-|   |   |   projects.service.ts
-|   |   |
-|   |   +---dto
-|   |   |       create-project.dto.ts
-|   |   |       publish-project.dto.ts
-|   |   |       update-project.dto.ts
-|   |   |
-|   |   \---entities
-|   |           project.entity.ts
+|   |           transaction.entity.ts
 |   |
 |   \---users
-|       |   user.service.spec.ts
 |       |   users.controller.spec.ts
 |       |   users.controller.ts
 |       |   users.module.ts
+|       |   users.service.spec.ts
 |       |   users.service.ts
 |       |
 |       +---dto
 |       |       create-user.dto.ts
-|       |       update-user.dto.ts
+|       |       signin.dto.ts
 |       |
 |       \---entities
 |               user.entity.ts
-|
-\---test
-        app.e2e-spec.ts
-        jest-e2e.json
+|-  .eslintrc.js
+|-  .gitignore
+|-  .prettierrc
+|-  nest-cli.json
+|-  package-lock.json
+|-  package.json
+|-  Procfile
+|-  README.md
+|-  tsconfig.build.json
+|-  tsconfig.json
+
 ```
