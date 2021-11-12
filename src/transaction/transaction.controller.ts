@@ -23,6 +23,7 @@ export class TransactionController {
   }
 
   @Get('/:id')
+  @UseGuards(JwtAuthGuard)
   async findOneTransaction(@Param('id') id: string): Promise<Transaction> {
     return this.transactionService.getOneTransaction(Number(id));
   }
