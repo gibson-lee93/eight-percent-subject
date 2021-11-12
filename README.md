@@ -63,7 +63,7 @@
 | 이현준(조장) | [깃허브](https://github.com/lhj0621)/[블로그](https://supiz.tistory.com/)                                                                       | 총괄, 회원가입, 로그인, 로그인 인증, 로그아웃, 유닛 테스트, 헤로쿠 배포 |
 | 김태련       | [깃허브](https://github.com/nojamcode)/[블로그](https://velog.io/@code-link)                                                                    | 입금, 출금, 유닛테스트                                                  |
 | 신영학       | [깃허브](https://github.com/yhshin0)/[블로그](https://nbkw.tistory.com/)                                                                        | 계좌 CRUD, 유닛 테스트                                                  |
-| 임유라       | [깃허브](https://github.com/BangleCoding)/[블로그](https://banglecoding.github.io/)                                                             | 유닛 테스트                                                             |
+| 임유라       | [깃허브](https://github.com/BangleCoding)/[블로그](https://banglecoding.github.io/)                                                             | 계좌 조회 쿼리, 계좌 상세조회 기능 구현 테스트                          |
 | 이기범       | [깃허브](https://github.com/gibson-lee93)/[블로그](https://mysterious-laborer-518.notion.site/Gibson-s-Notion-2dd7f598fba64f1c9806cded5b4b83a0) | 계좌 CRUD, 유닛 테스트, README 작성                                     |
 | 정진산       | [깃허브](https://github.com/chinsanchung)/[블로그](https://chinsanchung.github.io/)                                                             |                                                                         |
 
@@ -102,16 +102,20 @@
 - 입금 또는 출금이 있으면 계좌 수정을 통해 계좌의 보유 금액을 업데이트합니다.
 - typeorm 의 softDelete 메소드를 이용해 데이터를 실제로 삭제하지 않도록 구현했습니다.
 
-### 거래내역
-
--
-
 ### 입금, 출금
 
 - 입금과 출금 기능을 구현 했습니다.
 - 입금과 출금을 하기전에 jwt로 인증을 하고, 해당 유저의 계좌인지 확인합니다.
 - 출금은 해당 계좌의 잔액보다 많이 출금 할 수 없습니다.
 - 입금과 출금은 transaction 처리로 중간에 에러가 나면 모든 처리가 롤백됩니다.
+
+### 거래내역
+
+- 입금, 출금 내역을 거래내역 조회를 통해 확인합니다.
+- 거래내역을 조회할 때, JWT를 이용하여 해당 계좌가 로그인 유저의 계좌와 일치하는지 확인합니다.
+- 전체 거래내역은 입금/출금, 연,월,시 등의 검색 조건을 지정하여 검색할 수 있습니다.
+- 전체 거래내역 조회 시 페이지네이션을 사용하였습니다.
+- 각 거래내역의 id를 입력받아 해당 거래내역을 상세 조회 할 수 있습니다.
 
 ## API 문서
 
