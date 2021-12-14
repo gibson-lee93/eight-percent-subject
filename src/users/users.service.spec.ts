@@ -2,11 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AuthService } from '../auth/auth.service';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserCredentialsDto } from './dto/user-credentials.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { ConflictException, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { SigninDto } from './dto/signin.dto';
+import {
+  ConflictException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 const mockUserRepository = () => ({
@@ -55,7 +58,7 @@ describe('UsersService', () => {
   describe('createUser', () => {
     it('유저 생성 성공', async () => {
       expect.assertions(1);
-      const createUser: CreateUserDto = {
+      const createUser: UserCredentialsDto = {
         user_id: 'test',
         password: '123',
       };
@@ -65,7 +68,7 @@ describe('UsersService', () => {
     });
     it('이미 존재하는 이메일', async () => {
       expect.assertions(3);
-      const createUser: CreateUserDto = {
+      const createUser: UserCredentialsDto = {
         user_id: 'test',
         password: '123',
       };
@@ -81,7 +84,7 @@ describe('UsersService', () => {
   });
 
   describe('signIn', () => {
-    const signinDto: SigninDto = {
+    const signin: UserCredentialsDto = {
       user_id: 'test',
       password: '123',
     };
@@ -93,14 +96,14 @@ describe('UsersService', () => {
       jest
         .spyOn(authService, 'jwtSign')
         .mockReturnValue({ accessToken: 'TOKEN' });
-      const result = await service.signIn(signinDto);
+      const result = await service.signIn(signin);
       expect(result).toMatchObject({ accessToken: 'TOKEN' });
     });
     it('로그인 실패 : 없는 유저', async () => {
       expect.assertions(3);
       userRepository.findOne.mockResolvedValue(undefined);
       try {
-        await service.signIn(signinDto);
+        await service.signIn(signin);
       } catch (error) {
         expect(error).toBeInstanceOf(UnauthorizedException);
         expect(error.status).toBe(401);
@@ -113,7 +116,7 @@ describe('UsersService', () => {
       const bcryptCompare = jest.fn().mockResolvedValue(false);
       (bcrypt.compare as jest.Mock) = bcryptCompare;
       try {
-        await service.signIn(signinDto);
+        await service.signIn(signin);
       } catch (error) {
         expect(error).toBeInstanceOf(UnauthorizedException);
         expect(error.status).toBe(401);

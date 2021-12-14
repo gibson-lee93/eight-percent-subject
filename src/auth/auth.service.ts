@@ -12,7 +12,7 @@ export class AuthService {
       loginedAt: user.loginedAt,
     };
     return {
-      accessToken : this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
     };
   }
 }
