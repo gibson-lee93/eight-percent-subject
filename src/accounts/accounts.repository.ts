@@ -11,19 +11,19 @@ export class AccountsRepository extends Repository<Account> {
   }
 
   async findOneAccount(id: number, user: User): Promise<Account> {
-    const existedAccount = await this.findOne({ id, user });
-    if (!existedAccount) {
+    const account = await this.findOne({ id, user });
+    if (!account) {
       throw new NotFoundException('해당 계좌가 존재하지 않습니다');
     }
-    return existedAccount;
+    return account;
   }
 
   async findOneByAccountNumber(acc_num: string, user: User): Promise<Account> {
-    const existedAccount = await this.findOne({ acc_num, user });
-    if (!existedAccount) {
+    const account = await this.findOne({ acc_num, user });
+    if (!account) {
       throw new NotFoundException('해당 계좌가 존재하지 않습니다');
     }
-    return existedAccount;
+    return account;
   }
 
   async updateAccount(

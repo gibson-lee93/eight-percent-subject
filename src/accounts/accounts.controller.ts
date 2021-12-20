@@ -31,7 +31,7 @@ export class AccountsController {
     @Param('id') id: string,
     @GetUser() user: User,
   ): Promise<Account> {
-    return this.accountsService.findOneAccount(+id, user);
+    return this.accountsService.findOneAccount(Number(id), user);
   }
 
   @Post()
@@ -48,7 +48,11 @@ export class AccountsController {
     @Body() updateAccountDto: UpdateAccountDto,
     @GetUser() user: User,
   ): Promise<Account> {
-    return this.accountsService.updateAccount(+id, updateAccountDto, user);
+    return this.accountsService.updateAccount(
+      Number(id),
+      updateAccountDto,
+      user,
+    );
   }
 
   @Delete('/:id')
@@ -56,6 +60,6 @@ export class AccountsController {
     @Param('id') id: string,
     @GetUser() user: User,
   ): Promise<{ message: string }> {
-    return this.accountsService.deleteAccount(+id, user);
+    return this.accountsService.deleteAccount(Number(id), user);
   }
 }
