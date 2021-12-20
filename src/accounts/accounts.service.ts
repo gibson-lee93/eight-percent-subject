@@ -29,9 +29,10 @@ export class AccountsService {
     createAccountDto: CreateAccountDto,
     user: User,
   ): Promise<Account> {
-    const existedAccount = await this.accountsRepository.findOne({
-      ...createAccountDto,
-    });
+    const existedAccount = await this.findOneByAccountNumber(
+      createAccountDto.acc_num,
+      user,
+    );
     if (existedAccount) {
       throw new ConflictException('이미 사용 중인 계좌번호입니다');
     }
