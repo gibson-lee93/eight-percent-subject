@@ -21,8 +21,7 @@ export class TransactionController {
   constructor(private transactionService: TransactionService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  async getAllTransactions(
+  getAllTransactions(
     @Query() query: ListQueryOptions,
     @GetUser() user: User,
   ): Promise<Transaction[]> {
@@ -38,8 +37,7 @@ export class TransactionController {
   }
 
   @Get('/:id')
-  @UseGuards(JwtAuthGuard)
-  async findOneTransaction(@Param('id') id: string): Promise<Transaction> {
+  getOneTransaction(@Param('id') id: string): Promise<Transaction> {
     return this.transactionService.getOneTransaction(Number(id));
   }
 
