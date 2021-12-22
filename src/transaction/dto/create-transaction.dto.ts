@@ -1,7 +1,8 @@
-import { IsInt, IsString, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
 
 export class CreateTransactionDto {
   @IsString()
+  @IsNotEmpty()
   acc_num: string;
 
   @IsInt()

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import * as moment from 'moment-timezone';
 import { Transaction } from './entities/transaction.entity';
@@ -10,8 +10,6 @@ export class TransactionRepository extends Repository<Transaction> {
     startDate: string | undefined,
     endDate: string | undefined,
   ): [string, string] {
-    // * 처음과 마지막을 쿼리로 전달하지 않을 경우, 3개월 전부터 오늘까지를 기준으로 정합니다.
-    // moment-timezone: 서울 시간을 기준으로 하고, 3개월 전을 계산하기 위해 사용합니다.
     let startDateString = '';
     let endDateString = '';
     if (startDate) {
@@ -33,6 +31,7 @@ export class TransactionRepository extends Repository<Transaction> {
     }
     return [startDateString, endDateString];
   }
+
   async getAllTransactions({
     limit,
     offset,
@@ -41,7 +40,6 @@ export class TransactionRepository extends Repository<Transaction> {
     endDate,
     acc_num,
   }: ListWithPageAndUserOptions): Promise<Transaction[]> {
-    // * 거래일시에 대한 필터링을 수행합니다. 처음과 끝 날짜를 계산하여 문자열 형식으로 반환합니다.
     const [startDateString, endDateString] = this.getDatePeriod(
       startDate,
       endDate,
@@ -78,10 +76,10 @@ export class TransactionRepository extends Repository<Transaction> {
         'transaction.comments',
       ])
       .getMany();
-    // * select 로 특정 컬럼만 응답에 포함합니다. [거래일시, 거래금액, 잔액, 거래종류, 적요]
+
     return transaction;
   }
-  //계좌의 잔액과 출금액을 비교해서 계좌의 잔액이 더 커야함
+
   compareMoneyAndAmount(money: number, amount: number) {
     if (money < amount) {
       throw new BadRequestException('계좌의 잔액이 부족합니다.');

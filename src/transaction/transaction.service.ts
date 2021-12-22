@@ -19,7 +19,6 @@ export class TransactionService {
   constructor(
     @InjectRepository(TransactionRepository)
     private readonly transactionRepository: TransactionRepository,
-    // * 목록 조회에서 계좌의 소유주를 검증하기 위해 사용합니다.
     @InjectRepository(AccountsRepository)
     private readonly accountRepository: AccountsRepository,
     @InjectConnection()
@@ -29,7 +28,6 @@ export class TransactionService {
   async getAllTransactions(
     query: ListWithPageAndUserOptions,
   ): Promise<Transaction[]> {
-    // * 계좌의 소유주인지 여부를 확인합니다.
     const account = await this.accountRepository.findOne({
       where: { acc_num: query.acc_num },
       join: {
